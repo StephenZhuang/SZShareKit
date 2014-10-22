@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "SZShareConstString.h"
+#import "QQ/TencentOpenAPI.framework/Headers/QQApi.h"
+#import "QQ/TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h"
+#import "QQ/TencentOpenAPI.framework/Headers/QQApiInterface.h"
+#import "QQ/TencentOpenAPI.framework/Headers/TencentOAuth.h"
 
 @interface SZQQActivity : UIActivity
 

@@ -44,11 +44,13 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    return [TencentOAuth HandleOpenURL:url];
     return [WXApi handleOpenURL:url delegate:self];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    return [TencentOAuth HandleOpenURL:url];
     return [WXApi handleOpenURL:url delegate:self];
 }
 
