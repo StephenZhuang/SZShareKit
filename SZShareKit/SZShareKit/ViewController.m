@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "SZWechatActivity.h"
 #import "SZQQActivity.h"
+#import "WXApi.h"
 
 @interface ViewController ()
 
@@ -19,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-
+    [WXApi registerApp:@"wx712df8473f2a1dbe"];
 }
 
 - (IBAction)shareAction:(id)sender
@@ -37,7 +38,7 @@
     
 	    // 初始化一个UIActivityViewController
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:activities];
-    activityVC.excludedActivityTypes = [NSArray arrayWithObjects:@"com.apple.UIKit.activity.PostToWeibo",@"com.evernote.iPhone.Evernote.EvernoteShare", nil];
+//    activityVC.excludedActivityTypes = [NSArray arrayWithObjects:@"com.apple.UIKit.activity.PostToWeibo",@"com.evernote.iPhone.Evernote.EvernoteShare", nil];
 
     // 写一个bolck，用于completionHandler的初始化
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
