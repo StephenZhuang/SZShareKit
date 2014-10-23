@@ -12,6 +12,7 @@
 #import "QQ/TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h"
 #import "QQ/TencentOpenAPI.framework/Headers/QQApiInterface.h"
 #import "QQ/TencentOpenAPI.framework/Headers/TencentOAuth.h"
+#import "SZShareManager.h"
 
 @interface SZQQActivity : UIActivity
 

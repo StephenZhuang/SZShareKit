@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TencentOpenAPI/TencentOAuth.h"
 
-@interface SZShareManager : NSObject
+@interface SZShareManager : NSObject<TencentSessionDelegate>
+@property (nonatomic , strong) TencentOAuth *tencentOAuth;
+@property (nonatomic , copy) NSString *QQAppid;
 
++ (instancetype) sharedManager;
+- (void)tencentLogin;
 @end
