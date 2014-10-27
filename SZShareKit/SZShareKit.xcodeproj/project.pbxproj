@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		772084DE19F655BB004E13CB /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772084DD19F655BB004E13CB /* Social.framework */; };
 		772084E319F65A10004E13CB /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 772084E019F65A10004E13CB /* libWeChatSDK.a */; };
+		772FF32E19FE11500056C256 /* SZShareObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 772FF32D19FE11500056C256 /* SZShareObject.m */; };
+		772FF33219FE35690056C256 /* SZTimelineActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 772FF33119FE35690056C256 /* SZTimelineActivity.m */; };
+		772FF33519FE35780056C256 /* SZQZoneActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 772FF33419FE35780056C256 /* SZQZoneActivity.m */; };
+		772FF33719FE383A0056C256 /* SZShareResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 772FF33619FE383A0056C256 /* SZShareResource.bundle */; };
+		772FF33A19FE3BB50056C256 /* UIImage+SZBundleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 772FF33919FE3BB50056C256 /* UIImage+SZBundleImage.m */; };
 		774BF26F19EF9A9800D5F60A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 774BF26E19EF9A9800D5F60A /* main.m */; };
 		774BF27219EF9A9800D5F60A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 774BF27119EF9A9800D5F60A /* AppDelegate.m */; };
 		774BF27519EF9A9800D5F60A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 774BF27419EF9A9800D5F60A /* ViewController.m */; };
@@ -47,6 +52,15 @@
 		772084E019F65A10004E13CB /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		772084E119F65A10004E13CB /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		772084E219F65A10004E13CB /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		772FF32C19FE11500056C256 /* SZShareObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZShareObject.h; sourceTree = "<group>"; };
+		772FF32D19FE11500056C256 /* SZShareObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZShareObject.m; sourceTree = "<group>"; };
+		772FF33019FE35690056C256 /* SZTimelineActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTimelineActivity.h; sourceTree = "<group>"; };
+		772FF33119FE35690056C256 /* SZTimelineActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTimelineActivity.m; sourceTree = "<group>"; };
+		772FF33319FE35780056C256 /* SZQZoneActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZQZoneActivity.h; sourceTree = "<group>"; };
+		772FF33419FE35780056C256 /* SZQZoneActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZQZoneActivity.m; sourceTree = "<group>"; };
+		772FF33619FE383A0056C256 /* SZShareResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SZShareResource.bundle; sourceTree = "<group>"; };
+		772FF33819FE3BB50056C256 /* UIImage+SZBundleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SZBundleImage.h"; sourceTree = "<group>"; };
+		772FF33919FE3BB50056C256 /* UIImage+SZBundleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SZBundleImage.m"; sourceTree = "<group>"; };
 		774BF26919EF9A9800D5F60A /* SZShareKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SZShareKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		774BF26D19EF9A9800D5F60A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		774BF26E19EF9A9800D5F60A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -119,7 +133,7 @@
 			path = WeChatSDK_64;
 			sourceTree = "<group>";
 		};
-		774BF26019EF9A9800D5F60A = {
+		772FF32F19FE1E860056C256 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				778FCB4D19F7AA9F0016CD54 /* libz.dylib */,
@@ -131,9 +145,17 @@
 				778FCB4119F7AA3F0016CD54 /* libz.1.1.3.dylib */,
 				778FCB3F19F7AA380016CD54 /* SystemConfiguration.framework */,
 				772084DD19F655BB004E13CB /* Social.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		774BF26019EF9A9800D5F60A = {
+			isa = PBXGroup;
+			children = (
 				774BF29219EF9BFD00D5F60A /* Class */,
 				774BF26B19EF9A9800D5F60A /* SZShareKit */,
 				774BF28519EF9A9800D5F60A /* SZShareKitTests */,
+				772FF32F19FE1E860056C256 /* Frameworks */,
 				774BF26A19EF9A9800D5F60A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -191,16 +213,25 @@
 		774BF29219EF9BFD00D5F60A /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				772FF33619FE383A0056C256 /* SZShareResource.bundle */,
 				778FCB3A19F78D440016CD54 /* QQ */,
 				772084DF19F65A10004E13CB /* WeChatSDK_64 */,
 				774BF29719EFA8FC00D5F60A /* SZWechatActivity.h */,
 				774BF29819EFA8FC00D5F60A /* SZWechatActivity.m */,
+				772FF33019FE35690056C256 /* SZTimelineActivity.h */,
+				772FF33119FE35690056C256 /* SZTimelineActivity.m */,
 				774BF29A19EFA91300D5F60A /* SZQQActivity.h */,
 				774BF29B19EFA91300D5F60A /* SZQQActivity.m */,
+				772FF33319FE35780056C256 /* SZQZoneActivity.h */,
+				772FF33419FE35780056C256 /* SZQZoneActivity.m */,
 				774BF2A019EFAA5A00D5F60A /* SZShareConstString.h */,
 				774BF29E19EFAA0500D5F60A /* SZShareConstString.m */,
 				778FCB4F19F7AF5F0016CD54 /* SZShareManager.h */,
 				778FCB5019F7AF5F0016CD54 /* SZShareManager.m */,
+				772FF32C19FE11500056C256 /* SZShareObject.h */,
+				772FF32D19FE11500056C256 /* SZShareObject.m */,
+				772FF33819FE3BB50056C256 /* UIImage+SZBundleImage.h */,
+				772FF33919FE3BB50056C256 /* UIImage+SZBundleImage.m */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -295,6 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772FF33719FE383A0056C256 /* SZShareResource.bundle in Resources */,
 				778FCB3E19F78D440016CD54 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				774BF29619EFA2AC00D5F60A /* Images.xcassets in Resources */,
 				774BF27819EF9A9800D5F60A /* Main.storyboard in Resources */,
@@ -317,9 +349,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				774BF27519EF9A9800D5F60A /* ViewController.m in Sources */,
+				772FF33519FE35780056C256 /* SZQZoneActivity.m in Sources */,
+				772FF33219FE35690056C256 /* SZTimelineActivity.m in Sources */,
+				772FF32E19FE11500056C256 /* SZShareObject.m in Sources */,
 				774BF27219EF9A9800D5F60A /* AppDelegate.m in Sources */,
 				774BF29C19EFA91300D5F60A /* SZQQActivity.m in Sources */,
 				774BF29F19EFAA0500D5F60A /* SZShareConstString.m in Sources */,
+				772FF33A19FE3BB50056C256 /* UIImage+SZBundleImage.m in Sources */,
 				778FCB5119F7AF5F0016CD54 /* SZShareManager.m in Sources */,
 				774BF26F19EF9A9800D5F60A /* main.m in Sources */,
 				774BF29919EFA8FC00D5F60A /* SZWechatActivity.m in Sources */,

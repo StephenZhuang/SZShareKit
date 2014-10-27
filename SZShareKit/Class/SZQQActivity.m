@@ -7,6 +7,8 @@
 //
 
 #import "SZQQActivity.h"
+#import "SZShareManager.h"
+#import "UIImage+SZBundleImage.h"
 
 @implementation SZQQActivity
 
@@ -27,7 +29,7 @@
 
 - (UIImage *)activityImage
 {
-    return [UIImage imageNamed:@"qq"];
+    return [UIImage imagesNamedFromCustomBundle:@"qq"];
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems
@@ -38,44 +40,44 @@
 - (void)prepareWithActivityItems:(NSArray *)activityItems
 {
     NSLog(@"%@",activityItems);
-    TencentOAuth *oauth = [SZShareManager sharedManager].tencentOAuth;
-    if (oauth) {
-        
-        NSData *imgData = nil;
-        NSString *title = @"";
-        for (id activityItem in activityItems) {
-            if ([activityItem isKindOfClass:[NSString class]]) {
-                title = activityItem;
-            } else if ([activityItem isKindOfClass:[UIImage class]]) {
-                imgData = UIImagePNGRepresentation(activityItem);
-            }
-        }
-//        QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imgData
-//                                                   previewImageData:imgData
-//                                                              title:title
-//                                                        description:title];
-//        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
+//    TencentOAuth *oauth = [SZShareManager sharedManager].tencentOAuth;
+//    if (oauth) {
+//        
+//        NSData *imgData = nil;
+//        NSString *title = @"";
+//        for (id activityItem in activityItems) {
+//            if ([activityItem isKindOfClass:[NSString class]]) {
+//                title = activityItem;
+//            } else if ([activityItem isKindOfClass:[UIImage class]]) {
+//                imgData = UIImagePNGRepresentation(activityItem);
+//            }
+//        }
+////        QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imgData
+////                                                   previewImageData:imgData
+////                                                              title:title
+////                                                        description:title];
+////        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
+////        //将内容分享到qq
+////        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+////        NSLog(@"%d",sent);
+//        
+//        NSString *utf8String = @"http://www.163.com";
+////        NSString *title = @"新闻标题";
+//        NSString *description = @"新闻描述";
+//        NSString *previewImageUrl = @"http://cdni.wired.co.uk/620x413/k_n/NewsForecast%20copy_620x413.jpg";
+//        QQApiNewsObject *newsObj = [QQApiNewsObject
+//                                    objectWithURL:[NSURL URLWithString:utf8String]
+//                                    title:title
+//                                    description:description
+//                                    previewImageURL:[NSURL URLWithString:previewImageUrl]];
+//        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
 //        //将内容分享到qq
 //        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-//        NSLog(@"%d",sent);
-        
-        NSString *utf8String = @"http://www.163.com";
-//        NSString *title = @"新闻标题";
-        NSString *description = @"新闻描述";
-        NSString *previewImageUrl = @"http://cdni.wired.co.uk/620x413/k_n/NewsForecast%20copy_620x413.jpg";
-        QQApiNewsObject *newsObj = [QQApiNewsObject
-                                    objectWithURL:[NSURL URLWithString:utf8String]
-                                    title:title
-                                    description:description
-                                    previewImageURL:[NSURL URLWithString:previewImageUrl]];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
-        //将内容分享到qq
-        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-        //将内容分享到qzone
-//        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
-    } else {
-        [[SZShareManager sharedManager] tencentLogin];
-    }
+//        //将内容分享到qzone
+////        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+//    } else {
+//        [[SZShareManager sharedManager] tencentLogin];
+//    }
     
 //    TCAddShareDic *params = [TCAddShareDic dictionary];
 //    params.paramTitle = @"腾讯内部addShare接口测试";

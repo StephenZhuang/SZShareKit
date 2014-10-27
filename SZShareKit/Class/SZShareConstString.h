@@ -9,7 +9,11 @@
 extern NSString *const SZShareTypeWeChat;
 extern NSString *const SZShareTypeQQ;
 extern NSString *const SZShareTypeWeibo;
+extern NSString *const SZShareTypeTimeline;
+extern NSString *const SZShareTypeQZone;
 
 extern NSString *const SZShareTitleWeChat;
 extern NSString *const SZShareTitleQQ;
 extern NSString *const SZShareTitleWeibo;
+extern NSString *const SZShareTitleTimeline;
+extern NSString *const SZShareTitleQZone;

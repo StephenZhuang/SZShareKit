@@ -8,11 +8,37 @@
 
 #import <Foundation/Foundation.h>
 #import "TencentOpenAPI/TencentOAuth.h"
+#import "WXApi.h"
+#import "WXApiObject.h"
+#import "SZShareObject.h"
+#import "SZShareConstString.h"
+#import "SZWechatActivity.h"
+#import "SZQQActivity.h"
 
-@interface SZShareManager : NSObject<TencentSessionDelegate>
+typedef enum : NSUInteger {
+    SZShareQQ = 0,
+    SZShareQZone = 1,
+    SZShareTimeline = 2,
+    SZShareWechat = 3
+} SZSHareType;
+
+@interface SZShareManager : NSObject
+@property (nonatomic , strong) SZShareObject *shareObject;
 @property (nonatomic , strong) TencentOAuth *tencentOAuth;
-@property (nonatomic , copy) NSString *QQAppid;
 
 + (instancetype) sharedManager;
-- (void)tencentLogin;
+@end
+
+@interface SZShareManager (wechat)
+- (void)registerWeixinWithAppid:(NSString *)appid;
+
+@end
+
+@interface SZShareManager (qq)<TencentSessionDelegate>
+- (void)registerQQWithAppid:(NSString *)appid;
+@end
+
+@interface UIViewController (SZShareKit)
+- (void)showMenuWithObject:(SZShareObject *)shareObject platforms:(NSArray *)platforms;
+
 @end

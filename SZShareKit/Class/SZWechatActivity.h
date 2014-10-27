@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SZShareConstString.h"
 
 @interface SZWechatActivity : UIActivity
 

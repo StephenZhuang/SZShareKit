@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "SZShareManager.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    SZShareManager *shareManager = [SZShareManager sharedManager];
+    [shareManager registerWeixinWithAppid:@"wx712df8473f2a1dbe"];
+    [shareManager registerQQWithAppid:@"222222"];
     return YES;
 }
 
