@@ -13,8 +13,6 @@
 @property (nonatomic , copy) NSString *shareTitle;
 @property (nonatomic , copy) NSString *shareDescription;
 @property (nonatomic , copy) NSString *shareUrl;
-
-//其他二选一，新浪必须UIImage
 @property (nonatomic , copy) NSString *shareImageUrl;
 @property (nonatomic , strong) UIImage *shareImage;
 @end

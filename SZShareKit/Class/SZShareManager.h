@@ -39,6 +39,7 @@ typedef enum : NSUInteger {
 
 @interface SZShareManager (qq)<TencentSessionDelegate>
 - (void)registerQQWithAppid:(NSString *)appid;
+- (void)shareToQQ:(BOOL)isQZone;
 @end
 
 @interface UIViewController (SZShareKit)

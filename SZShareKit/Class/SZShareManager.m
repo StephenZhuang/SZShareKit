@@ -12,6 +12,11 @@
 #import "SZQQActivity.h"
 #import "SZTimelineActivity.h"
 #import "SZQZoneActivity.h"
+#import <TencentOpenAPI/TencentApiInterface.h>
+#import <TencentOpenAPI/TencentMessageObject.h>
+#import <TencentOpenAPI/QQApi.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/QQApiInterfaceObject.h>
 
 @implementation SZShareManager
 + (instancetype) sharedManager
@@ -126,7 +131,11 @@
 - (void)tencentLogin
 {
     NSArray *_permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
-    [_tencentOAuth authorize:_permissions inSafari:NO];
+    if ([TencentOAuth iphoneQQInstalled] && [TencentOAuth iphoneQQSupportSSOLogin]) {
+        [_tencentOAuth authorize:_permissions inSafari:NO];
+    } else {
+        [_tencentOAuth authorize:_permissions inSafari:YES];
+    }
 }
 
 - (void)tencentDidLogin
@@ -139,32 +148,74 @@
     NSLog(@"登录失败");
 }
 
-- (void)addShareResponse:(APIResponse*) response {
-    if (response.retCode == URLREQUEST_SUCCEED)
-    {
-        
-        
-        NSMutableString *str=[NSMutableString stringWithFormat:@""];
-        for (id key in response.jsonResponse) {
-            [str appendString: [NSString stringWithFormat:@"%@:%@\n",key,[response.jsonResponse objectForKey:key]]];
+- (void)shareToQQ:(BOOL)isQZone
+{
+    if ([_tencentOAuth isSessionValid]) {
+        if (_shareObject.shareUrl) {
+            [self shareWebToQQ:isQZone];
+        } else if (_shareObject.shareImage) {
+            [self shareImageToQQ:isQZone];
+        } else {
+            [self shareTextToQQ:isQZone];
         }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"操作成功" message:[NSString stringWithFormat:@"%@",str]
-                              
-                                                       delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles:nil];
-        [alert show];
-        
-        
-        
+    } else {
+        [self tencentLogin];
     }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"操作失败" message:[NSString stringWithFormat:@"%@", response.errorMsg]
-                              
-                                                       delegate:self cancelButtonTitle:@"我知道啦" otherButtonTitles: nil];
-        [alert show];
-    }
-    
-    
 }
+
+- (void)shareTextToQQ:(BOOL)isQZone
+{
+    NSString *description = _shareObject.shareDescription;
+    QQApiTextObject *textObj = [[QQApiTextObject alloc] initWithText:description];
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:textObj];
+    QQApiSendResultCode sent;
+    if (isQZone) {
+        //将内容分享到qzone
+        sent = [QQApiInterface SendReqToQZone:req];
+    } else {
+        //将内容分享到qq
+        sent = [QQApiInterface sendReq:req];
+    }
+}
+
+- (void)shareImageToQQ:(BOOL)isQZone
+{
+    NSString *title = _shareObject.shareTitle;
+    NSString *description = _shareObject.shareDescription;
+    QQApiImageObject *imageObj = [[QQApiImageObject alloc] initWithData:UIImagePNGRepresentation(_shareObject.shareImage) previewImageData:UIImagePNGRepresentation(_shareObject.shareImage) title:title description:description];
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imageObj];
+    QQApiSendResultCode sent;
+    if (isQZone) {
+        //将内容分享到qzone
+        sent = [QQApiInterface SendReqToQZone:req];
+    } else {
+        //将内容分享到qq
+        sent = [QQApiInterface sendReq:req];
+    }
+}
+
+- (void)shareWebToQQ:(BOOL)isQZone
+{
+    NSString *title = _shareObject.shareTitle;
+    NSString *description = _shareObject.shareDescription;
+    NSString *previewImageUrl = _shareObject.shareImageUrl;
+    QQApiNewsObject *newsObj = [QQApiNewsObject
+                                objectWithURL:[NSURL URLWithString:_shareObject.shareUrl]
+                                title:title
+                                description:description
+                                previewImageURL:[NSURL URLWithString:previewImageUrl]];
+    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+    QQApiSendResultCode sent;
+    if (isQZone) {
+        //将内容分享到qzone
+        sent = [QQApiInterface SendReqToQZone:req];
+    } else {
+        //将内容分享到qq
+        sent = [QQApiInterface sendReq:req];
+    }
+}
+
+
 @end
 
 @implementation UIViewController (SZShareKit)

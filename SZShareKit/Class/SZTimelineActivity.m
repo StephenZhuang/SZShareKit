@@ -39,6 +39,7 @@
 
 - (void)prepareWithActivityItems:(NSArray *)activityItems
 {
+    [self activityDidFinish:YES];
     [[SZShareManager sharedManager] shareToWeixin:YES];
 }
 
