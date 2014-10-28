@@ -25,13 +25,16 @@ typedef enum : NSUInteger {
 @interface SZShareManager : NSObject
 @property (nonatomic , strong) SZShareObject *shareObject;
 @property (nonatomic , strong) TencentOAuth *tencentOAuth;
+@property (nonatomic , strong) UIActivity *currentActivity;
 
 + (instancetype) sharedManager;
++ (BOOL)handleOpenUrl:(NSURL *)url;
 @end
 
-@interface SZShareManager (wechat)
+@interface SZShareManager (wechat)<WXApiDelegate>
 - (void)registerWeixinWithAppid:(NSString *)appid;
-
+- (void)shareToWeixin:(BOOL)isTimeline;
+- (BOOL)handleWeixnOpenUrl:(NSURL *)url;
 @end
 
 @interface SZShareManager (qq)<TencentSessionDelegate>

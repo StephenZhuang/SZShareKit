@@ -24,6 +24,15 @@
     return _sharedInstance;
 }
 
++ (BOOL)handleOpenUrl:(NSURL *)url
+{
+    if ([url.absoluteString hasPrefix:@"wx"]) {
+        return [[SZShareManager sharedManager] handleWeixnOpenUrl:url];
+    } else {
+        return [TencentOAuth HandleOpenURL:url];
+    }
+}
+
 @end
 
 @implementation SZShareManager (wechat)
@@ -34,6 +43,76 @@
     [WXApi registerApp:appid];
 }
 
+- (void)shareToWeixin:(BOOL)isTimeline
+{
+    if (_shareObject.shareUrl) {
+        [self shareWebToWeixin:isTimeline];
+    } else if (_shareObject.shareImage || _shareObject.shareImageUrl) {
+        [self shareImageToWeixin:isTimeline];
+    } else {
+        [self shareTextToWeixin:isTimeline];
+    }
+}
+
+- (void)shareWebToWeixin:(BOOL)isTimeline
+{
+    SendMessageToWXReq *send = [[SendMessageToWXReq alloc] init];
+    send.bText = NO;
+    WXMediaMessage *message = [[WXMediaMessage alloc] init];
+    WXWebpageObject *web = [[WXWebpageObject alloc] init];
+    [web setWebpageUrl:_shareObject.shareUrl];
+    message.mediaObject = web;
+    message.title = _shareObject.shareTitle;
+    message.description = _shareObject.shareDescription;;
+    [message setThumbImage:_shareObject.shareImage];
+    send.message = message;
+    [send setScene:isTimeline?WXSceneTimeline:WXSceneSession];
+    [WXApi sendReq:send];
+}
+
+- (void)shareImageToWeixin:(BOOL)isTimeline
+{
+    SendMessageToWXReq *send = [[SendMessageToWXReq alloc] init];
+    send.bText = NO;
+    WXMediaMessage *message = [[WXMediaMessage alloc] init];
+    WXImageObject *imageObject = [[WXImageObject alloc] init];
+    if (_shareObject.shareImage) {
+        imageObject.imageData = UIImagePNGRepresentation(_shareObject.shareImage);
+    } else {
+        imageObject.imageUrl = _shareObject.shareImageUrl;
+    }
+    message.mediaObject = imageObject;
+    message.title = _shareObject.shareTitle;
+    message.description = _shareObject.shareDescription;;
+    [message setThumbImage:_shareObject.shareImage];
+    send.message = message;
+    [send setScene:isTimeline?WXSceneTimeline:WXSceneSession];
+    [WXApi sendReq:send];
+}
+
+- (void)shareTextToWeixin:(BOOL)isTimeline
+{
+    SendMessageToWXReq *send = [[SendMessageToWXReq alloc] init];
+    send.bText = YES;
+    send.text = _shareObject.shareTitle;
+    [send setScene:isTimeline?WXSceneTimeline:WXSceneSession];
+    [WXApi sendReq:send];
+}
+
+- (BOOL)handleWeixnOpenUrl:(NSURL *)url
+{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (void)onReq:(BaseReq*)req
+{
+    NSLog(@"callback = %@",req);
+}
+
+- (void)onResp:(BaseResp*)resp
+{
+    NSLog(@"resp");
+}
 @end
 
 @implementation SZShareManager (qq)
@@ -136,7 +215,7 @@
     // 初始化一个UIActivityViewController
     UIActivityViewController *activityVC = [[UIActivityViewController alloc]initWithActivityItems:activityItems applicationActivities:activities];
     
-    // 写一个bolck，用于completionHandler的初始化
+    // 写一个block，用于completionHandler的初始化
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         NSLog(@"%@", activityType);
         NSLog(@"%@",returnedItems);
@@ -149,7 +228,7 @@
         [activityVC dismissViewControllerAnimated:YES completion:Nil];
     };
     
-    // 初始化completionHandler，当post结束之后（无论是done还是cancell）该blog都会被调用
+    // 初始化completionHandler，当post结束之后（无论是done还是cancell）该block都会被调用
     activityVC.completionWithItemsHandler = myBlock;
     
     // 以模态方式展现出UIActivityViewController

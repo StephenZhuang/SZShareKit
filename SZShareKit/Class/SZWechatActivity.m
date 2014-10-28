@@ -85,6 +85,7 @@
 //    send.bText = NO;
 //    send.message = message;
 //    [WXApi sendReq:send];
+    [[SZShareManager sharedManager] shareToWeixin:NO];
 }
 
 
