@@ -30,7 +30,13 @@
     shareObject.shareImage = [UIImage imageNamed:@"sina"];
     shareObject.shareImageUrl = @"http://img0.bdstatic.com/img/image/shouye/mnct-9404969720.jpg";
     NSArray *platforms = @[@(SZShareQQ),@(SZShareQZone),@(SZShareTimeline),@(SZShareWechat)];
-    [self showMenuWithObject:shareObject platforms:platforms];
+    SZShareSuccessBlock successBlock = ^(void) {
+        NSLog(@"分享成功");
+    };
+    SZShareFailureBlock failureBlock = ^(int errorCode , NSString *errorMessage) {
+        NSLog(@"errorCode = %i , errorMessage = %@" ,errorCode , errorMessage);
+    };
+    [self showMenuWithObject:shareObject platforms:platforms successBlock:successBlock failureBlock:failureBlock];
 }
 
 - (void)didReceiveMemoryWarning {

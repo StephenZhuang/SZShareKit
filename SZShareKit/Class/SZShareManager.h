@@ -22,10 +22,15 @@ typedef enum : NSUInteger {
     SZShareWechat = 3
 } SZSHareType;
 
+typedef void(^SZShareSuccessBlock)();
+typedef void(^SZShareFailureBlock)(int errorCode,NSString *errorMessage);
+
 @interface SZShareManager : NSObject
 @property (nonatomic , strong) SZShareObject *shareObject;
 @property (nonatomic , strong) TencentOAuth *tencentOAuth;
 @property (nonatomic , strong) UIActivity *currentActivity;
+@property (nonatomic , copy) SZShareSuccessBlock successBlock;
+@property (nonatomic , copy) SZShareFailureBlock failureBlock;
 
 + (instancetype) sharedManager;
 + (BOOL)handleOpenUrl:(NSURL *)url;
@@ -43,6 +48,6 @@ typedef enum : NSUInteger {
 @end
 
 @interface UIViewController (SZShareKit)
-- (void)showMenuWithObject:(SZShareObject *)shareObject platforms:(NSArray *)platforms;
+- (void)showMenuWithObject:(SZShareObject *)shareObject platforms:(NSArray *)platforms successBlock:(SZShareSuccessBlock)successBlock failureBlock:(SZShareFailureBlock)failureBlock;
 
 @end

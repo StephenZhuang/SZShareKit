@@ -116,6 +116,15 @@
 
 - (void)onResp:(BaseResp*)resp
 {
+    if (resp.errCode == 0) {
+        if (_successBlock) {
+            _successBlock();
+        }
+    } else {
+        if (_failureBlock) {
+            _failureBlock(resp.errCode,resp.errStr);
+        }
+    }
     NSLog(@"resp");
 }
 @end
@@ -176,6 +185,7 @@
         //将内容分享到qq
         sent = [QQApiInterface sendReq:req];
     }
+    [self handleQQSendResult:sent];
 }
 
 - (void)shareImageToQQ:(BOOL)isQZone
@@ -192,6 +202,7 @@
         //将内容分享到qq
         sent = [QQApiInterface sendReq:req];
     }
+    [self handleQQSendResult:sent];
 }
 
 - (void)shareWebToQQ:(BOOL)isQZone
@@ -213,17 +224,76 @@
         //将内容分享到qq
         sent = [QQApiInterface sendReq:req];
     }
+    [self handleQQSendResult:sent];
 }
 
+- (void)handleQQSendResult:(QQApiSendResultCode)sendResult
+{
+    if (sendResult == EQQAPISENDSUCESS || sendResult == EQQAPIAPPSHAREASYNC) {
+        if (_successBlock) {
+            _successBlock();
+        }
+    } else {
+        NSString *errorMessage = @"";
+        switch (sendResult)
+        {
+            case EQQAPIQQNOTINSTALLED:
+            {
+                errorMessage = @"手机QQ没有安装";
+                break;
+            }
+            case EQQAPIAPPNOTREGISTED:
+            {
+                errorMessage = @"没有注册";
+                break;
+            }
+            case EQQAPIMESSAGECONTENTINVALID:
+            {
+                errorMessage = @"内容非法";
+                break;
+            }
+            case EQQAPIMESSAGECONTENTNULL:
+            {
+                errorMessage = @"空内容";
+                break;
+            }
+            case EQQAPIMESSAGETYPEINVALID:
+            {
+                errorMessage = @"message type invalid";
+                break;
+            }
+            case EQQAPIQQNOTSUPPORTAPI:
+            {
+                errorMessage = @"不支持这个api";
+                break;
+            }
+            case EQQAPISENDFAILD:
+            {
+                errorMessage = @"分享失败";
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+        if (_failureBlock) {
+            _failureBlock(sendResult,errorMessage);
+        }
+    }
+    
+}
 
 @end
 
 @implementation UIViewController (SZShareKit)
 
-- (void)showMenuWithObject:(SZShareObject *)shareObject platforms:(NSArray *)platforms
+- (void)showMenuWithObject:(SZShareObject *)shareObject platforms:(NSArray *)platforms successBlock:(SZShareSuccessBlock)successBlock failureBlock:(SZShareFailureBlock)failureBlock
 {
     SZShareManager *shareManager = [SZShareManager sharedManager];
     shareManager.shareObject = shareObject;
+    shareManager.successBlock = successBlock;
+    shareManager.failureBlock = failureBlock;
     NSArray *activityItems = nil;
     if (shareObject.shareImage) {
         activityItems = [[NSArray alloc]initWithObjects:shareObject.shareTitle,shareObject.shareUrl,shareObject.shareImage, nil];
@@ -269,12 +339,18 @@
     // 写一个block，用于completionHandler的初始化
     UIActivityViewControllerCompletionWithItemsHandler myBlock = ^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
         NSLog(@"%@", activityType);
-        NSLog(@"%@",returnedItems);
         if(completed) {
+            if ([activityType hasPrefix:@"com.apple"]) {
+                if (successBlock) {
+                    successBlock();
+                }
+            }
             NSLog(@"completed");
-        } else
-        {
+        } else {
             NSLog(@"cancled");
+            if (failureBlock) {
+                failureBlock(-1,@"分享取消");
+            }
         }
         [activityVC dismissViewControllerAnimated:YES completion:Nil];
     };
